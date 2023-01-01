@@ -12,8 +12,8 @@ TagManager:
   - Water
   - UI
   - 
-  - 
-  - 
+  - SolidObjects
+  - Interacable
   - 
   - 
   - 
@@ -40,4 +40,46 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background1
+    uniqueID: 2273051495
+    locked: 0
+  - name: Background2
+    uniqueID: 4018004311
+    locked: 0
+  - name: Background3
+    uniqueID: 399717563
+    locked: 0
+  - name: Background4
+    uniqueID: 464662659
+    locked: 0
+  - name: Water
+    uniqueID: 3806528473
+    locked: 0
+  - name: Island
+    uniqueID: 2254358653
+    locked: 0
+  - name: WaterWalk
+    uniqueID: 1352696781
+    locked: 0
+  - name: BreakableObj
+    uniqueID: 3244868607
+    locked: 0
+  - name: Door
+    uniqueID: 1121191857
+    locked: 0
+  - name: Tree1
+    uniqueID: 1938699403
+    locked: 0
+  - name: Player
+    uniqueID: 2461317225
+    locked: 0
+  - name: NPC
+    uniqueID: 3666412027
+    locked: 0
+  - name: Tree2
+    uniqueID: 3301873627
+    locked: 0
+  - name: Foreground
+    uniqueID: 3040980451
     locked: 0

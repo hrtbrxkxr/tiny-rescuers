@@ -6,6 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Cooper_stage1.unity
+    guid: da982c2b857d29a46a36af2d759c873c
+  - enabled: 1
+    path: Assets/Scenes/Cooper_stage2.unity
+    guid: 2003ef7e75c0eeb448658350d0500595
+  - enabled: 1
+    path: Assets/Scenes/Cooper_stage3.unity
+    guid: be313b7f3cd2ce04e96d25c0f719427a
+  - enabled: 1
+    path: Assets/Scenes/Cooper_stage4.unity
+    guid: 8602b271af2a60b4d97e242532bdbcba
+  - enabled: 1
+    path: Assets/Scenes/Cooper_stage5.unity
+    guid: 7ed949ee730a1964fb726427b84d99b8
   m_configObjects: {}

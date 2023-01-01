@@ -14515,7 +14515,7 @@ MonoBehaviour:
   pixelPerUnit: 16
   hideChildAssets: 1
   enableCustomMapTexture: 0
-  ColliderType: 0
+  ColliderType: 1
   Patterns:
   - {fileID: 2037433281436956906}
   - {fileID: 5709820174177389204}
