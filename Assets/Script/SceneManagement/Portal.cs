@@ -1,18 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Linq;
 
-public class Portal : MonoBehaviour
+public class Portal : MonoBehaviour, IPlayerTrigger
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] int sceneToLoad = -1;
+    // [SerializeField] DestinationIdentifier destinationPortal;
+    [SerializeField] Transform spawnPoint;
+
+    PlayerController player;
+    
+    public void OnPlayerTriggered(PlayerController player)
     {
-        
+        this.player = player;
+        StartCoroutine(SwitchScene());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator SwitchScene()
     {
+        DontDestroyOnLoad(gameObject);
+
+        GameController.Instance.PauseGame(true);
+
+        yield return SceneManager.LoadSceneAsync(sceneToLoad);
         
+        var destPortal = FindObjectsOfType<Portal>().First(x => x != this);
+        player.SetPositionAndSnapToTile(destPortal.SpawnPoint.position);
+        
+        GameController.Instance.PauseGame(false);
+
+        Destroy(gameObject);
+
     }
+
+    public Transform SpawnPoint => spawnPoint;
 }
+
+// public enum DestinationIdentifier {A,B,C,D,E}

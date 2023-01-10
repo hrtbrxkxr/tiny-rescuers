@@ -1,22 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
     public float MoveSpeed;
-    public LayerMask solidObjectLayer;
     private bool IsMoving;
     private Vector2 input;
     private Animator animator;
-    public LayerMask interactableLayer;
+
+    const float offsetY = 0.3f;
+
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        SetPositionAndSnapToTile(transform.position);
+    }
+
+    public void SetPositionAndSnapToTile(Vector2 pos)
+    {
+        pos.x = Mathf.Floor(pos.x) + 0.5f;
+        pos.y = Mathf.Floor(pos.y) + 0.5f + offsetY;
+
+        transform.position = pos;
     }
   
-    private void Update()
+    public void HandleUpdate()
     {
         if (!IsMoving) 
         {
@@ -34,7 +45,7 @@ public class PlayerController : MonoBehaviour
             targetPos.y += input.y;
             if (IsWalkable(targetPos))
             {
-                StartCoroutine(Move(targetPos));
+                StartCoroutine(Move(targetPos, OnMoveOver));
             }
             
         }
@@ -55,14 +66,15 @@ public class PlayerController : MonoBehaviour
         var facingDir = new Vector3(animator.GetFloat("Horizontal"),animator.GetFloat("Vertical"));
         var interactPos = transform.position + facingDir;
         // Debug.DrawLine(transform.position, interactPos, Color.green, 0.5f);
-        var collider = Physics2D.OverlapCircle(interactPos, 0.3f, interactableLayer);
+        var collider = Physics2D.OverlapCircle(interactPos, 0.3f, GameLayer.i.InteractableLayer);
         if (collider != null)
         {
-            collider.GetComponent<Interactable>()?.Interact();
+            collider.GetComponent<Interactable>()?.Interact(transform);
         }
     }
 
-    IEnumerator Move(Vector3 targetPos)
+
+    IEnumerator Move(Vector3 targetPos, Action OnMoveOver=null)
     {
         IsMoving = true;
         while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
@@ -72,14 +84,31 @@ public class PlayerController : MonoBehaviour
         }
         transform.position = targetPos;
         IsMoving = false;
+        OnMoveOver?.Invoke();
+    }
+
+    private void OnMoveOver()
+    {
+        var colliders = Physics2D.OverlapCircleAll(transform.position - new Vector3(0,offsetY), 0.2f, GameLayer.i.PortalLayer);
+
+        foreach (var collider in colliders)
+        {
+            var triggerable = collider.GetComponent<IPlayerTrigger>();
+            if (triggerable != null)
+            {
+                triggerable.OnPlayerTriggered(this);
+                break;
+            }        
+        }
     }
 
     private bool IsWalkable(Vector3 targetPos) 
     {
-        if(Physics2D.OverlapCircle(targetPos, 0.35f, solidObjectLayer | interactableLayer) != null)
+        if(Physics2D.OverlapCircle(targetPos, 0.35f, GameLayer.i.SolidLayer | GameLayer.i.InteractableLayer) != null)
         {
             return false;
         }
         return true;
     }
+
 }
