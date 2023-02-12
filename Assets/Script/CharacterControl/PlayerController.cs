@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, ISavable
 {
     public float MoveSpeed;
     private bool IsMoving;
@@ -54,14 +54,14 @@ public class PlayerController : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Interact();
+            StartCoroutine(Interact());
         }
         // animator.SetFloat("Horizontal", movement.x);
         // animator.SetFloat("Vertical", movement.y);
         // animator.SetFloat("Speed", movement.sqrMagnitude);
     }
 
-    void Interact()
+    IEnumerator Interact()
     {
         var facingDir = new Vector3(animator.GetFloat("Horizontal"),animator.GetFloat("Vertical"));
         var interactPos = transform.position + facingDir;
@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
         var collider = Physics2D.OverlapCircle(interactPos, 0.3f, GameLayer.i.InteractableLayer);
         if (collider != null)
         {
-            collider.GetComponent<Interactable>()?.Interact(transform);
+            yield return collider.GetComponent<Interactable>()?.Interact(transform);
         }
     }
 
@@ -100,6 +100,18 @@ public class PlayerController : MonoBehaviour
                 break;
             }        
         }
+    }
+
+    public object CaptureState()
+    {
+        float[] position = new float[] {transform.position.x, transform.position.y};
+        return position;
+    }
+
+    public void RestoreState(object state)
+    {
+        var position = (float[])state;
+        transform.position = new Vector3(position[0], position[1]);
     }
 
     private bool IsWalkable(Vector3 targetPos) 

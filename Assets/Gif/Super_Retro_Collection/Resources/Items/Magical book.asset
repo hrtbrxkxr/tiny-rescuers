@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a4be545a7585ae4eb6e76cf526317c4, type: 3}
+  m_Name: Magical book
+  m_EditorClassIdentifier: 
+  itemName: Magical book
+  itemDescription: You can't understand anything in this book. But this book maybe
+    belong to someone
+  itemIcon: {fileID: 1632650950, guid: 549a36dddae9aed49a5226d65d0731f0, type: 3}

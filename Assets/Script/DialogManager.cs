@@ -10,16 +10,27 @@ using System;
 public class DialogManager : MonoBehaviour
 {
     [SerializeField] GameObject dialogBox;
-    [SerializeField] Image actorImage;
+    [SerializeField] GameObject pickupBox;
+    // [SerializeField] Image actorImage;
     [SerializeField] TMP_Text actorName;
+    [SerializeField] TMP_Text pickupText;
     [SerializeField] TMP_Text dialogText;
     [SerializeField] int lettersPerSecond;
+    [SerializeField] Image npcPortrait;
     
-    Message[] currentMessages;
-    Actor[] currentActors;
-    int activeMessage = 0;
+    // Message[] currentMessages;
+    // Actor[] currentActors;
+
+    // Dialog dialog;
+
+    // int activeMessage = 0;
+
+    // int currentLine = 0;
+    // bool isTyping;
+
     public static bool isActive = false;
-    Action onDialogFinished;
+    bool isPickup = false;
+    // Action onDialogFinished;
 
     public event Action OnShowDialog;
     public event Action OnCloseDialog;
@@ -33,19 +44,87 @@ public class DialogManager : MonoBehaviour
         Instance = this;
     }
 
-    public void ShowDialog(Message[] messages, Actor[] actors, Action onFinished=null)
+    public IEnumerator ShowDialogText(string text, bool waitForInput=true, bool autoClose=true)
     {
-        currentMessages = messages;
-        currentActors = actors;
-        activeMessage = 0;
+        OnShowDialog?.Invoke();
+        
+        IsShowing = true;
+        dialogBox.SetActive(true);
+
+        yield return TypeDialog(text,isPickup);
+
+        if (waitForInput)
+        {
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Z));
+        }
+
+        if (autoClose)
+        {
+            CloseDialog();
+        }
+    }
+    public IEnumerator ShowPickupText(string text, bool waitForInput=true, bool autoClose=true)
+    {
+        OnShowDialog?.Invoke();
+        
+        IsShowing = true;
+        pickupBox.SetActive(true);
+
+        yield return TypeDialog(text,isPickup=true);
+
+        if (waitForInput)
+        {
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Z));
+        }
+
+        if (autoClose)
+        {
+            ClosePickupDialog();
+        }
+    }
+
+    public void CloseDialog()
+    {
+        dialogBox.SetActive(false);
+        IsShowing = false;
+        OnCloseDialog?.Invoke();
+    }
+
+    public void ClosePickupDialog()
+    {
+        pickupBox.SetActive(false);
+        IsShowing = false;
+        OnCloseDialog?.Invoke();
+    }
+    
+    public IEnumerator ShowDialog(Dialog dialog, Sprite portrait, string npcName)
+    {
+        // currentMessages = messages;
+        // currentActors = actors;
+        // activeMessage = 0;
+        yield return new WaitForEndOfFrame();
+
+        OnShowDialog?.Invoke();
+        
         isActive = true;
         IsShowing = true;
         
-        onDialogFinished = onFinished;
-
-        OnShowDialog?.Invoke();
         dialogBox.SetActive(true);
-        DisplayMessage();
+        actorName.text = npcName;
+        npcPortrait.sprite = portrait;
+
+        foreach (var line in dialog.Lines)
+        {
+            yield return TypeDialog(line,isPickup=false);
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Z));
+        }
+
+        dialogBox.SetActive(false);
+        IsShowing = false;
+        OnCloseDialog?.Invoke();
+
+
+        // yield return DisplayMessage();
         // if (isActive == true)
         // {
         //     dialogBox.SetActive(true);
@@ -56,54 +135,76 @@ public class DialogManager : MonoBehaviour
         //     dialogBox.SetActive(false);
         // }
         
-        // StartCoroutine(TypeDialog(dialog.Lines[0]));
     }
     public void HandleUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && isActive == true)
-        {
-            NextMessage();
-        }
+        
     }
 
-    void DisplayMessage()
-    {
-        Message messageToDisplay = currentMessages[activeMessage];
-        dialogText.text = messageToDisplay.message;
-
-        Actor actorToDisplay = currentActors[messageToDisplay.actorId];
-        actorName.text = actorToDisplay.name;
-        actorImage.sprite = actorToDisplay.sprite;
-    }
-
-    public void NextMessage()
-    {
-        activeMessage++;
-        if (activeMessage < currentMessages.Length)
-        {
-            DisplayMessage();
-        }
-        else 
-        {
-            // Debug.Log("End!");
-            isActive = false;
-            IsShowing = false;
-            dialogBox.SetActive(false);
-            onDialogFinished.Invoke();
-            OnCloseDialog?.Invoke();
-            
-        }
-    }
-    // public IEnumerator TypeDialog(string line)
+    // private IEnumerator DisplayMessage()
     // {
-    //     dialogText.text = "";
-    //     foreach (var letter in line.ToCharArray())
-    //     {
-    //         dialogText.text += letter;
-    //         yield return new WaitForSeconds(1f / lettersPerSecond);
-    //     }
+        
+    //     Message messageToDisplay = currentMessages[activeMessage];
+    //     dialogText.text = messageToDisplay.message;
+
+    //     Actor actorToDisplay = currentActors[messageToDisplay.actorId];
+    //     actorName.text = actorToDisplay.name;
+    //     actorImage.sprite = actorToDisplay.sprite;
+    //     yield return null;
+
 
     // }
+
+    // public IEnumerator NextMessage()
+    // {
+    //     activeMessage++;
+    //     if (activeMessage < currentMessages.Length)
+    //     {
+    //         yield return DisplayMessage();
+    //     }
+    //     else 
+    //     {
+    //         // Debug.Log("End!");
+    //         isActive = false;
+    //         IsShowing = false;
+    //         dialogBox.SetActive(false);
+    //         onDialogFinished?.Invoke();
+    //         OnCloseDialog?.Invoke();
+            
+    //     }
+    // }
+    public IEnumerator TypeDialog(string line, bool isPickup)
+    {
+        if (isPickup == true)
+        {
+            pickupText.text = "";
+            foreach (var letter in line.ToCharArray())
+            {
+                pickupText.text += letter;
+                yield return new WaitForSeconds(1f/lettersPerSecond);
+            }
+        }
+
+        else 
+        {
+            dialogText.text = "";
+            foreach (var letter in line.ToCharArray())
+            {
+                dialogText.text += letter;
+                yield return new WaitForSeconds(1f/lettersPerSecond);
+            }
+        }
+        
+        
+        
+        // dialogText.text = "";
+        // foreach (var letter in line.ToCharArray())
+        // {
+        //     dialogText.text += letter;
+        //     yield return new WaitForSeconds(1f / lettersPerSecond);
+        // }
+
+    }
 
 
 }

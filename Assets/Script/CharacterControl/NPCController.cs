@@ -1,40 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class NPCController : MonoBehaviour, Interactable
 {
-    public Message[] messages;
-    public Actor[] actors;
+    // public Message[] messages;
+    // public Actor[] actors;
     [SerializeField] List<Sprite> sprites;
 
     [SerializeField] List<Vector2> movementPattern;
     [SerializeField] float timeBetweenPattern;
+
+    [SerializeField] Dialog dialog;
+    public Sprite portrait;
+    public string npcName;
 
     float idleTimer = 0f;
     NPCState state;
     int currentPattern = 0;
 
     Character character;
+    ItemGiver itemGiver;
 
     private void Awake()
     {
         character = GetComponent<Character>();
+        itemGiver = GetComponent<ItemGiver>();
     }
     
-    public void Interact(Transform initiator)
+    public IEnumerator Interact(Transform initiator)
     {
         if (state == NPCState.Idle)   
         {
             state = NPCState.Dialog;
             character.LookTowards(initiator.position);
 
-            DialogManager.Instance.ShowDialog(messages,actors,() =>
+            if (itemGiver != null && itemGiver.CanBeGiven())
             {
-                idleTimer = 0f;
-                state = NPCState.Idle;
+                yield return itemGiver.GiveItem(initiator.GetComponent<PlayerController>());
             }
-            );
+
+            else
+            {
+                yield return DialogManager.Instance.ShowDialog(dialog,portrait,npcName);
+            }
+
+            idleTimer = 0f;
+            state = NPCState.Idle;
         }
         
     }

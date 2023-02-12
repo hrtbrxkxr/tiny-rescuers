@@ -7,7 +7,7 @@ using System.Linq;
 public class Portal : MonoBehaviour, IPlayerTrigger
 {
     [SerializeField] int sceneToLoad = -1;
-    // [SerializeField] DestinationIdentifier destinationPortal;
+    [SerializeField] DestinationIdentifier destinationPortal;
     [SerializeField] Transform spawnPoint;
 
     PlayerController player;
@@ -26,7 +26,7 @@ public class Portal : MonoBehaviour, IPlayerTrigger
 
         yield return SceneManager.LoadSceneAsync(sceneToLoad);
         
-        var destPortal = FindObjectsOfType<Portal>().First(x => x != this);
+        var destPortal = FindObjectsOfType<Portal>().First(x => x != this && x.destinationPortal == this.destinationPortal);
         player.SetPositionAndSnapToTile(destPortal.SpawnPoint.position);
         
         GameController.Instance.PauseGame(false);
@@ -38,4 +38,4 @@ public class Portal : MonoBehaviour, IPlayerTrigger
     public Transform SpawnPoint => spawnPoint;
 }
 
-// public enum DestinationIdentifier {A,B,C,D,E}
+public enum DestinationIdentifier {A,B,C,D,E}

@@ -5174,7 +5174,7 @@ CompositeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:
@@ -59399,15 +59399,13 @@ MonoBehaviour:
   - name: Cooper
     sprite: {fileID: 21300000, guid: 18014320d4b66a743ab965c899ad40c5, type: 3}
   - name: Wizard
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 68bc81f6885f4394f9555fff0506af6a, type: 3}
   sprites:
   - {fileID: 335969515, guid: b827e49bd61fc7f429c3a164db3f1df8, type: 3}
   - {fileID: -381427084, guid: b827e49bd61fc7f429c3a164db3f1df8, type: 3}
   - {fileID: 335969515, guid: b827e49bd61fc7f429c3a164db3f1df8, type: 3}
   - {fileID: -1691644049, guid: b827e49bd61fc7f429c3a164db3f1df8, type: 3}
-  movementPattern:
-  - {x: 4, y: 0}
-  - {x: -3, y: 0}
+  movementPattern: []
   timeBetweenPattern: 3
 --- !u!114 &1999125960
 MonoBehaviour:

@@ -135,7 +135,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &7082601611971641547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,27 +148,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189937e487fed3a458bbc68159726afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messages:
-  - actorId: 0
-    message: Hello
-  - actorId: 1
-    message: say the name SEVENTEEN
-  - actorId: 0
-    message: sing Dar+ling please
-  - actorId: 1
-    message: you know without you im so lonely
-  - actorId: 1
-    message: When you're not here 911 calling
-  actors:
-  - name: Cooper
-    sprite: {fileID: 21300000, guid: 18014320d4b66a743ab965c899ad40c5, type: 3}
-  - name: Angel Cat
-    sprite: {fileID: 21300000, guid: 93df6443156b3f849af561cdb6a01c93, type: 3}
   sprites: []
   movementPattern:
-  - {x: -5, y: 0}
-  - {x: 5, y: 0}
-  timeBetweenPattern: 2
+  - {x: 2, y: 0}
+  - {x: 0, y: -2}
+  - {x: -2, y: 0}
+  - {x: 0, y: 2}
+  timeBetweenPattern: 1
+  dialog:
+    lines:
+    - Hi
+    - May I help you?
+  portrait: {fileID: 21300000, guid: 93df6443156b3f849af561cdb6a01c93, type: 3}
+  npcName: Angel Cat
 --- !u!114 &7082601611971641541
 MonoBehaviour:
   m_ObjectHideFlags: 0

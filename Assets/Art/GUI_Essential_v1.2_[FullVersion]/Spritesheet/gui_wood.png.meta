@@ -1418,7 +1418,7 @@ TextureImporter:
         height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 5, y: 9, z: 5, w: 6}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -1568,10 +1568,10 @@ TextureImporter:
     nameFileIdTable:
       gui_wood_51: -1594161595
       gui_wood_31: 653306859
-      gui_wood_8: -467290737
       gui_wood_66: 304432731
+      gui_wood_40: -1012246550
       gui_wood_30: -1662635890
-      gui_wood_1: -1222906511
+      gui_wood_62: 1238301783
       gui_wood_48: 1765067321
       gui_wood_64: -1182441494
       gui_wood_45: 1715439293
@@ -1599,10 +1599,10 @@ TextureImporter:
       gui_wood_10: -1997289325
       gui_wood_26: -1001145031
       gui_wood_37: 464189677
-      gui_wood_21: -1661639108
+      gui_wood_39: -1045735916
       gui_wood_14: -567936082
       gui_wood_53: 1208707654
-      gui_wood_39: -1045735916
+      gui_wood_21: -1661639108
       gui_wood_60: -842403068
       gui_wood_25: -245181377
       gui_wood_52: -170298859
@@ -1625,15 +1625,15 @@ TextureImporter:
       gui_wood_50: 631661652
       gui_wood_56: -1417444132
       gui_wood_57: -1121454985
-      gui_wood_13: -1795378451
+      gui_wood_1: -1222906511
       gui_wood_6: 1359691599
+      gui_wood_23: -1685953804
+      gui_wood_13: -1795378451
       gui_wood_17: 979129654
-      gui_wood_62: 1238301783
-      gui_wood_40: -1012246550
       gui_wood_16: 978766165
       gui_wood_47: -2121161717
       gui_wood_67: -1252976539
-      gui_wood_23: -1685953804
+      gui_wood_8: -467290737
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
